@@ -115,10 +115,6 @@ set(TARGET_LIBS c nosys m
   hardware_sync)
 set(CMAKE_EXE_LINKER_FLAGS "-specs=nano.specs -u _printf_float -Wl,-Map=${OUTPUT_TARGET}.map,--cref,--gc-sections")
 
-target_include_directories(${OUTPUT_TARGET} PUBLIC
-  /Users/shreeve/Data/Code/kaluma/kaluma/lib/pico-sdk/src/rp2_common/pico_stdio_usb/include
-)
-
 # For the pico-w board
 if(BOARD STREQUAL "pico-w")
   # modules for pico-w
@@ -135,6 +131,10 @@ endif()
 include(${CMAKE_SOURCE_DIR}/tools/kaluma.cmake)
 add_executable(${OUTPUT_TARGET} ${SOURCES} ${JERRY_LIBS})
 target_link_libraries(${OUTPUT_TARGET} ${JERRY_LIBS} ${TARGET_LIBS})
+
+target_include_directories(${OUTPUT_TARGET} PUBLIC
+  /Users/shreeve/Data/Code/kaluma/kaluma/lib/pico-sdk/src/rp2_common/pico_stdio_usb/include
+)
 
 # Enable USB output, disable UART output
 pico_enable_stdio_usb(${OUTPUT_TARGET} 0)
