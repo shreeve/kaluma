@@ -72,6 +72,7 @@ set(SOURCES
   ${TARGET_SRC_DIR}/i2c.c
   ${TARGET_SRC_DIR}/spi.c
   ${TARGET_SRC_DIR}/rtc.c
+  ${TARGET_SRC_DIR}/usb.c
   ${TARGET_SRC_DIR}/main.c
   ${BOARD_DIR}/board.c)
 
@@ -96,7 +97,13 @@ set(CMAKE_OBJCOPY ${PREFIX}objcopy)
 
 set(TARGET_LIBS c nosys m
   pico_stdlib
+
+  # pico_unique_id
   tinyusb_device
+  # tinyusb_host
+  # tinyusb_pico_pio_usb
+  # pico_fix_rp2040_usb_device_enumeration
+
   hardware_adc
   hardware_pwm
   hardware_i2c
@@ -107,6 +114,10 @@ set(TARGET_LIBS c nosys m
   hardware_rtc
   hardware_sync)
 set(CMAKE_EXE_LINKER_FLAGS "-specs=nano.specs -u _printf_float -Wl,-Map=${OUTPUT_TARGET}.map,--cref,--gc-sections")
+
+target_include_directories(${OUTPUT_TARGET} PUBLIC
+  /Users/shreeve/Data/Code/kaluma/kaluma/lib/pico-sdk/src/rp2_common/pico_stdio_usb/include
+)
 
 # For the pico-w board
 if(BOARD STREQUAL "pico-w")
@@ -124,6 +135,7 @@ endif()
 include(${CMAKE_SOURCE_DIR}/tools/kaluma.cmake)
 add_executable(${OUTPUT_TARGET} ${SOURCES} ${JERRY_LIBS})
 target_link_libraries(${OUTPUT_TARGET} ${JERRY_LIBS} ${TARGET_LIBS})
+
 # Enable USB output, disable UART output
 pico_enable_stdio_usb(${OUTPUT_TARGET} 0)
 pico_enable_stdio_uart(${OUTPUT_TARGET} 0)
