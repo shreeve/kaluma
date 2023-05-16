@@ -253,9 +253,9 @@ bool stdio_usb_init(void) {
     return false;
 }
 #endif // CFG_TUD_ENABLED && CFG_TUD_CDC
-#else
-#warning stdio USB was configured, but is being disabled as TinyUSB host is explicitly linked
-bool stdio_usb_init(void) {
-    return false;
-}
+// #else
+// #warning stdio USB was configured, but is being disabled as TinyUSB host is explicitly linked
+// bool stdio_usb_init(void) {
+//     return false;
+// }
 // #endif // !LIB_TINYUSB_HOST
