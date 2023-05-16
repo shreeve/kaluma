@@ -96,6 +96,7 @@ set(CMAKE_OBJCOPY ${PREFIX}objcopy)
 
 set(TARGET_LIBS c nosys m
   pico_stdlib
+  tinyusb_device
   hardware_adc
   hardware_pwm
   hardware_i2c
@@ -124,7 +125,7 @@ include(${CMAKE_SOURCE_DIR}/tools/kaluma.cmake)
 add_executable(${OUTPUT_TARGET} ${SOURCES} ${JERRY_LIBS})
 target_link_libraries(${OUTPUT_TARGET} ${JERRY_LIBS} ${TARGET_LIBS})
 # Enable USB output, disable UART output
-pico_enable_stdio_usb(${OUTPUT_TARGET} 1)
+pico_enable_stdio_usb(${OUTPUT_TARGET} 0)
 pico_enable_stdio_uart(${OUTPUT_TARGET} 0)
 
 pico_add_extra_outputs(${OUTPUT_TARGET})
