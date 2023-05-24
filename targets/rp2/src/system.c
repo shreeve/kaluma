@@ -95,6 +95,7 @@ void km_system_init() {
   km_uart_init();
   km_rtc_init();
   km_flash_init();
+  // km_tinyusb_init();
 }
 
 void km_system_cleanup() {
@@ -124,4 +125,35 @@ void km_custom_infinite_loop() {
 #ifdef PICO_CYW43
   cyw43_arch_poll();
 #endif /* PICO_CYW43 */
+  // tuh_task();
+  // tud_task();
 }
+
+// // ==[ Move this part to it's own file when Ha says so ]==
+//
+// #include "pio_usb.h"
+// #include "tusb.h"
+//
+// #define BOARD_TUH_RHPORT 1
+//
+// #define PICO_DEFAULT_PIO_USB_DP_PIN       16
+// #define PICO_DEFAULT_PIO_USB_VBUSEN_PIN   22
+// #define PICO_DEFAULT_PIO_USB_VBUSEN_STATE 1
+//
+// void km_usbh_init() {
+//
+//   // Set the system clock to 120MHz
+//   set_sys_clock_khz(120000, true);
+//
+// #ifdef PICO_DEFAULT_PIO_USB_VBUSEN_PIN
+//   gpio_init(PICO_DEFAULT_PIO_USB_VBUSEN_PIN);
+//   gpio_set_dir(PICO_DEFAULT_PIO_USB_VBUSEN_PIN, GPIO_OUT);
+//   gpio_put(PICO_DEFAULT_PIO_USB_VBUSEN_PIN, PICO_DEFAULT_PIO_USB_VBUSEN_STATE);
+// #endif
+//
+//   // Configure the pio state machine to bitbang USB
+//   pio_usb_configuration_t pio_cfg = PIO_USB_DEFAULT_CONFIG;
+//   pio_cfg.pin_dp = PICO_DEFAULT_PIO_USB_DP_PIN;
+//   tuh_configure(BOARD_TUH_RHPORT, TUH_CFGID_RPI_PIO_USB_CONFIGURATION, &pio_cfg);
+//   tuh_init(BOARD_TUH_RHPORT);
+// }
