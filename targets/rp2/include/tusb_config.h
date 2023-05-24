@@ -36,12 +36,11 @@ extern "C" {
 
 // Enable device stack
 #define CFG_TUD_ENABLED 1
+#define TUD_OPT_RP2040_USB_DEVICE_UFRAME_FIX 0
 
 // Enable host stack with pio-usb if Pico-PIO-USB library is available
-#if 0
 #define CFG_TUH_ENABLED 1
 #define CFG_TUH_RPI_PIO_USB 1
-#endif
 
 #ifndef CFG_TUSB_MCU
 #define CFG_TUSB_MCU OPT_MCU_RP2040
@@ -62,15 +61,11 @@ extern "C" {
 #define CFG_TUD_ENDOINT0_SIZE 64
 
 #define CFG_TUD_CDC 1
-#define CFG_TUD_MSC 0
 #define CFG_TUD_HID 0
 
 // CDC FIFO size of TX and RX
-#define CFG_TUD_CDC_RX_BUFSIZE 256
-#define CFG_TUD_CDC_TX_BUFSIZE 256
-
-// MSC Buffer size of Device Mass storage
-#define CFG_TUD_MSC_EP_BUFSIZE 512
+#define CFG_TUD_CDC_RX_BUFSIZE 128
+#define CFG_TUD_CDC_TX_BUFSIZE 128
 
 // HID buffer size Should be sufficient to hold ID (if any) + Data
 #define CFG_TUD_HID_EP_BUFSIZE 64
@@ -83,7 +78,7 @@ extern "C" {
 #define CFG_TUH_ENUMERATION_BUFSIZE 256
 
 // Number of hub devices
-#define CFG_TUH_HUB 1
+#define CFG_TUH_HUB 0
 
 // max device support (excluding hub device): 1 hub typically has 4 ports
 #define CFG_TUH_DEVICE_MAX (3 * CFG_TUH_HUB + 1)

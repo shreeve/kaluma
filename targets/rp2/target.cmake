@@ -108,8 +108,8 @@ set(TARGET_LIBS c nosys m
   hardware_rtc
   hardware_sync
   tinyusb_device
-  #tinyusb_host
-  #tinyusb_pico_pio_usb
+  tinyusb_host
+  tinyusb_pico_pio_usb
   )
 set(CMAKE_EXE_LINKER_FLAGS "-specs=nano.specs -u _printf_float -Wl,-Map=${OUTPUT_TARGET}.map,--cref,--gc-sections")
 
@@ -129,6 +129,8 @@ endif()
 include(${CMAKE_SOURCE_DIR}/tools/kaluma.cmake)
 add_executable(${OUTPUT_TARGET} ${SOURCES} ${JERRY_LIBS})
 target_link_libraries(${OUTPUT_TARGET} ${JERRY_LIBS} ${TARGET_LIBS})
+
+target_link_options(${OUTPUT_TARGET} PUBLIC -Wl,--print-memory-usage)
 # Enable USB output, disable UART output
 pico_enable_stdio_usb(${OUTPUT_TARGET} 1)
 pico_enable_stdio_uart(${OUTPUT_TARGET} 0)

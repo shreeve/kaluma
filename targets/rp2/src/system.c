@@ -88,6 +88,7 @@ static void rp2_pio_init() {
 void km_system_init() {
   rp2_pio_init();
   km_usbd_init();
+  km_usbh_init();
   stdio_init_all();
   km_gpio_init();
   km_adc_init();
@@ -129,4 +130,14 @@ void km_custom_infinite_loop() {
 
   tud_task();
   tud_cdc_write_flush();
+
+  // TODO Hack to prove that usbh work, should be removed
+  // forward message from usbh to usbd. Since tty use usbd, we cannot forward the other way around
+  if (tuh_cdc_connected(0)) {
+    uint8_t buf[64];
+    uint32_t count = tuh_cdc_read(0, buf, sizeof(buf));
+    if (count > 0) {
+      tud_cdc_write(buf, count);
+    }
+  }
 }
