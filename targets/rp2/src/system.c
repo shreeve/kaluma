@@ -39,6 +39,7 @@
 #include "spi.h"
 #include "tty.h"
 #include "tusb.h"
+#include "usb.h"
 #include "uart.h"
 #ifdef PICO_CYW43
 #include "module_pico_cyw43.h"
@@ -86,6 +87,7 @@ static void rp2_pio_init() {
  */
 void km_system_init() {
   rp2_pio_init();
+  km_usbd_init();
   stdio_init_all();
   km_gpio_init();
   km_adc_init();
@@ -124,4 +126,7 @@ void km_custom_infinite_loop() {
 #ifdef PICO_CYW43
   cyw43_arch_poll();
 #endif /* PICO_CYW43 */
+
+  tud_task();
+  tud_cdc_write_flush();
 }

@@ -73,6 +73,8 @@ set(SOURCES
   ${TARGET_SRC_DIR}/spi.c
   ${TARGET_SRC_DIR}/rtc.c
   ${TARGET_SRC_DIR}/main.c
+  ${TARGET_SRC_DIR}/usb.c
+  ${TARGET_SRC_DIR}/usb_descriptors.c
   ${BOARD_DIR}/board.c)
 
 include_directories(${TARGET_INC_DIR} ${BOARD_DIR})
@@ -104,7 +106,11 @@ set(TARGET_LIBS c nosys m
   hardware_pio
   hardware_flash
   hardware_rtc
-  hardware_sync)
+  hardware_sync
+  tinyusb_device
+  #tinyusb_host
+  #tinyusb_pico_pio_usb
+  )
 set(CMAKE_EXE_LINKER_FLAGS "-specs=nano.specs -u _printf_float -Wl,-Map=${OUTPUT_TARGET}.map,--cref,--gc-sections")
 
 # For the pico-w board

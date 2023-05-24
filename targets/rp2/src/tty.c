@@ -24,6 +24,7 @@
 
 #include "hardware/timer.h"
 #include "pico/stdlib.h"
+#include "pico/time.h"
 #include "repl.h"
 #include "ringbuffer.h"
 #include "runtime.h"
