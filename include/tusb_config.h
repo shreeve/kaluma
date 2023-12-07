@@ -5,6 +5,20 @@
  extern "C" {
 #endif
 
+//--------------------------------------------------------------------+
+// Board Specific Configuration
+//--------------------------------------------------------------------+
+
+// RHPort number used for host can be defined by board.mk, default to port 0
+#ifndef BOARD_TUH_RHPORT
+#define BOARD_TUH_RHPORT      0
+#endif
+
+// RHPort max operational speed can defined by board.mk
+#ifndef BOARD_TUH_MAX_SPEED
+#define BOARD_TUH_MAX_SPEED   OPT_MODE_DEFAULT_SPEED
+#endif
+
 //--------------------------------------------------------------------
 // COMMON CONFIGURATION
 //--------------------------------------------------------------------
@@ -19,12 +33,15 @@
 #endif
 
 #ifndef CFG_TUSB_DEBUG
-#define CFG_TUSB_DEBUG        1
+#define CFG_TUSB_DEBUG        0
 #endif
 
 // Disable Device and Enable Host stack
 #define CFG_TUD_ENABLED       0
 #define CFG_TUH_ENABLED       1
+
+// Default is max speed that hardware controller could support with on-chip PHY
+#define CFG_TUH_MAX_SPEED     BOARD_TUH_MAX_SPEED
 
 /* USB DMA on some MCUs can only access a specific SRAM region with restriction on alignment.
  * Tinyusb use follows macros to declare transferring memory so that they can be put
@@ -48,7 +65,7 @@
 // Size of buffer to hold descriptors and other data used for enumeration
 #define CFG_TUH_ENUMERATION_BUFSIZE 256
 
-#define CFG_TUH_HUB                 0 // number of supported hubs
+#define CFG_TUH_HUB                 1 // hub class is enabled
 #define CFG_TUH_CDC                 1 // CDC ACM
 #define CFG_TUH_CDC_FTDI            1 // FTDI UART
 #define CFG_TUH_HID                 0
@@ -57,6 +74,12 @@
 
 // max device support (excluding hub device): 1 hub typically has 4 ports
 #define CFG_TUH_DEVICE_MAX          (3*CFG_TUH_HUB + 1)
+
+// Max endpoint per device
+#define CFG_TUH_ENDPOINT_MAX        8
+
+// Enable tuh_edpt_xfer() API
+#define CFG_TUH_API_EDPT_XFER       1
 
 //------------- CDC -------------//
 
