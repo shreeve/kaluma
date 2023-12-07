@@ -116,6 +116,9 @@ void km_system_init() {
   km_uart_init();
   km_rtc_init();
   km_flash_init();
+#ifdef CFG_TUH_ENABLED
+  tuh_init(BOARD_TUH_RHPORT);
+#endif
 }
 
 void km_system_cleanup() {
@@ -143,5 +146,8 @@ uint8_t km_running_script_check() {
 void km_custom_infinite_loop() {
 #ifdef PICO_CYW43
   km_cyw43_infinite_loop();
+#endif
+#ifdef CFG_TUH_ENABLED
+  tuh_task();
 #endif
 }
