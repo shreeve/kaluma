@@ -38,7 +38,7 @@ static ringbuffer_t __tty_rx_ringbuffer;
 void km_tty_init() {
   ringbuffer_init(&__tty_rx_ringbuffer, __tty_rx_buffer,
                   sizeof(__tty_rx_buffer));
-  tud_cdc_set_wanted_char(ETX);  // Crtl + C
+//  tud_cdc_set_wanted_char(ETX);  // Crtl + C
 }
 
 TU_ATTR_WEAK void tud_cdc_rx_wanted_cb(uint8_t itf, char wanted_char) {
@@ -46,7 +46,7 @@ TU_ATTR_WEAK void tud_cdc_rx_wanted_cb(uint8_t itf, char wanted_char) {
     km_repl_state_t *state = km_get_repl_state();
     if (state->ymodem_state == 0) {
       km_runtime_set_vm_stop(1);
-      tud_cdc_read_flush();  // flush read fifo
+      // tud_cdc_read_flush();  // flush read fifo
     }
   }
 }

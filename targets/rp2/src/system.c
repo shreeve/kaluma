@@ -105,10 +105,10 @@ static void km_pio_init() {
  * Kaluma Hardware System Initializations
  */
 void km_system_init() {
-  stdio_init_all();
   km_uid_init();
   km_pio_init();
   km_gpio_init();
+  stdio_init_all(); // must follow km_gpio_init() ?
   km_adc_init();
   km_pwm_init();
   km_i2c_init();
