@@ -34,50 +34,6 @@
 #include "utils.h"
 #include "ymodem.h"
 
-#ifdef CFG_TUH_ENABLED
-// --------------------------------------------------------------------------
-// TinyUSB Host: Basic support for showing when devices are added or removed
-// --------------------------------------------------------------------------
-
-#include "tusb.h"
-
-tusb_desc_device_t desc_device;
-
-void print_device_descriptor(tuh_xfer_t* xfer) {
-  if ( XFER_RESULT_SUCCESS != xfer->result ) {
-    printf("Failed to get device descriptor\r\n");
-    return;
-  }
-
-  uint8_t const daddr = xfer->daddr;
-
-  printf("Device %u Descriptor\r\n"         , daddr);
-  printf("  bLength             %u\r\n"     , desc_device.bLength);
-  printf("  bDescriptorType     %u\r\n"     , desc_device.bDescriptorType);
-  printf("  bcdUSB              %04x\r\n"   , desc_device.bcdUSB);
-  printf("  bDeviceClass        %u\r\n"     , desc_device.bDeviceClass);
-  printf("  bDeviceSubClass     %u\r\n"     , desc_device.bDeviceSubClass);
-  printf("  bDeviceProtocol     %u\r\n"     , desc_device.bDeviceProtocol);
-  printf("  bMaxPacketSize0     %u\r\n"     , desc_device.bMaxPacketSize0);
-  printf("  idVendor            0x%04x\r\n" , desc_device.idVendor);
-  printf("  idProduct           0x%04x\r\n" , desc_device.idProduct);
-  printf("  bcdDevice           %04x\r\n"   , desc_device.bcdDevice);
-}
-
-// Invoked when device is mounted (configured)
-void tuh_mount_cb (uint8_t daddr) {
-  printf("Device attached, address = %d\r\n", daddr);
-  tuh_descriptor_get_device(daddr, &desc_device, 18, print_device_descriptor, 0);
-  // NOTE: FTDI 232 baud divisor => 16696 (9600)
-}
-
-// Invoked when device is unmounted (bus reset/unplugged)
-void tuh_umount_cb(uint8_t daddr) {
-  printf("Device removed, address = %d\r\n", daddr);
-  // free_hid_buf(daddr);
-}
-#endif /* CFG_TUH_ENABLED */
-
 // --------------------------------------------------------------------------
 // FORWARD DECLARATIONS
 // --------------------------------------------------------------------------
